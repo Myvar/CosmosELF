@@ -1,23 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
+using CosmosELFCore;
 using Sys = Cosmos.System;
 
 namespace CosmosELF
 {
-    public class Kernel: Sys.Kernel
+    public unsafe class Kernel : Sys.Kernel
     {
         protected override void BeforeRun()
         {
-            Console.WriteLine("Cosmos booted successfully. Type a line of text to get it echoed back.");
+            Console.Clear();
+
+            fixed (byte* ptr = TestFile.test_so)
+            {
+                var exe = new UnmanagedExecutible(ptr);
+                exe.Load();
+                exe.Link();
+
+                var args = new ArgumentWriter();
+                args.Push(25);
+                var x = exe.Invoke("dbl");
+                Console.WriteLine($"25 * 2 = {x}");
+            }
         }
-        
+
         protected override void Run()
         {
-            Console.Write("Input: ");
-            var input = Console.ReadLine();
-            Console.Write("Text typed: ");
-            Console.WriteLine(input);
+            Console.ReadLine();
         }
     }
 }

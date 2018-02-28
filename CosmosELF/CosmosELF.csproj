@@ -5,6 +5,10 @@
     <ProjectGuid>{96bc508a-e491-481e-b8f3-42cc56c0ae4b}</ProjectGuid>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
   <ItemGroup>
     <None Remove="CosmosELFBoot.Cosmos" />
   </ItemGroup>
@@ -12,6 +16,10 @@
   <ItemGroup>
     <PackageReference Include="Cosmos.Debug.Kernel" Version="*" />
     <PackageReference Include="Cosmos.System2" Version="*" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\CosmosELFCore\CosmosELFCore.csproj" />
   </ItemGroup>
 
 </Project>
