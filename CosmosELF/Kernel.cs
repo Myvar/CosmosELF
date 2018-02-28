@@ -35,12 +35,19 @@ namespace CosmosELF
                 new ArgumentWriter();
                 exe.Invoke("tty_clear");
 
+                new ArgumentWriter()
+                    .Push(5)  //fg
+                    .Push(15); //bg
+                exe.Invoke("tty_set_color");
+
                 fixed (byte* str = UnmanagedString("Hello World"))
                 {
-                    var args = new ArgumentWriter();
-                    args.Push((uint)str);
-                    exe.Invoke("tty_log");
+                     new ArgumentWriter()
+                         .Push((uint)str);
+                    exe.Invoke("tty_puts");
                 }
+
+               
             }
         }
 

@@ -21,14 +21,35 @@ namespace CosmosELFCore
         }
 
 
-        public void Push(char c) => _writer.Write(c);
+        public ArgumentWriter Push(char c)
+        {
+            _writer.Write(c);
+            return this;
+        }
 
-        public void Push(byte c) => _writer.Write(c);
+        public ArgumentWriter Push(byte c)
+        {
+             _writer.Write(c);
+            return this;
+        }
 
-        public void Push(short c) => _writer.Write(c);
+        public ArgumentWriter Push(short c)
+        {
+            _writer.Write(c);
+            return this;
+        }
 
-        public void Push(int c) => _writer.Write(c);
+        public ArgumentWriter Push(int c)
+        {
+            _writer.Write(c);
+            return this;
+        } 
 
-        public void Push(uint c) => _writer.Write(c);
+        public ArgumentWriter Push(uint c)
+        {
+            _writer.Write(c);
+            return this;
+        }
+        
     }
 }
