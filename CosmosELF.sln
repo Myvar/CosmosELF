@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2003
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CosmosELF", "CosmosELF\CosmosELF.csproj", "{96BC508A-E491-481E-B8F3-42CC56C0AE4B}"
+EndProject
+Project("{471EC4BB-E47E-4229-A789-D1F5F83B52D4}") = "CosmosELFBoot", "CosmosELF\CosmosELFBoot.Cosmos", "{736F28CC-C040-44A4-A620-92E00EFE8BE8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{96BC508A-E491-481E-B8F3-42CC56C0AE4B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{96BC508A-E491-481E-B8F3-42CC56C0AE4B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{96BC508A-E491-481E-B8F3-42CC56C0AE4B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{96BC508A-E491-481E-B8F3-42CC56C0AE4B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{736F28CC-C040-44A4-A620-92E00EFE8BE8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{736F28CC-C040-44A4-A620-92E00EFE8BE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{736F28CC-C040-44A4-A620-92E00EFE8BE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{736F28CC-C040-44A4-A620-92E00EFE8BE8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {26169281-ED3A-413D-8537-07EBE13CAEAC}
+	EndGlobalSection
+EndGlobal
