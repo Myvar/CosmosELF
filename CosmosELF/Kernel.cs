@@ -9,20 +9,38 @@ namespace CosmosELF
 {
     public unsafe class Kernel : Sys.Kernel
     {
+        private byte[] UnmanagedString(string s)
+        {
+            var re = new byte[s.Length + 1];
+
+            for (int i = 0; i < s.Length; i++)
+            {
+                re[i] = (byte)s[i];
+            }
+
+            re[s.Length + 1] = 0; //c requires null terminated string
+            return re;
+        }
+
         protected override void BeforeRun()
         {
-            Console.Clear();
-
             fixed (byte* ptr = TestFile.test_so)
             {
                 var exe = new UnmanagedExecutible(ptr);
                 exe.Load();
                 exe.Link();
 
-                var args = new ArgumentWriter();
-                args.Push(25);
-                var x = exe.Invoke("dbl");
-                Console.WriteLine($"25 * 2 = {x}");
+                Console.WriteLine("Executing");
+
+                new ArgumentWriter();
+                exe.Invoke("tty_clear");
+
+                fixed (byte* str = UnmanagedString("Hello World"))
+                {
+                    var args = new ArgumentWriter();
+                    args.Push((uint)str);
+                    exe.Invoke("tty_puts");
+                }
             }
         }
 

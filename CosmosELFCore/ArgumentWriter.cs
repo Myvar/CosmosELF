@@ -28,5 +28,7 @@ namespace CosmosELFCore
         public void Push(short c) => _writer.Write(c);
 
         public void Push(int c) => _writer.Write(c);
+
+        public void Push(uint c) => _writer.Write(c);
     }
 }

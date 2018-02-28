@@ -65,20 +65,31 @@ namespace CosmosELFCore
         {
             foreach (var rel in _elf.RelocationInformation)
             {
-                var addr = (uint) _finalExecutible + _elf.SectionHeaders[rel.Section].Offset;
+                var addr = (uint) _finalExecutible +
+                           _elf.SectionHeaders[(int) _elf.SectionHeaders[rel.Section].Info].Offset;
                 var refr = (uint*) (addr + rel.Offset);
                 var symval = _elf.Symbols[(int) rel.Symbol].Value;
+
+                var memOffset = (uint) _finalExecutible +
+                                _elf.SectionHeaders[_elf.Symbols[(int) rel.Symbol].Shndx].Offset;
+//
+//                Console.WriteLine($"addr: {addr}, refr: {*refr}, symval: {symval}, memoffset: {memOffset}");
+//                Console.WriteLine("(symval + *refr) + memOffset");
+//                Console.WriteLine($"{symval} + {*refr} + {memOffset} = {(symval + *refr) + memOffset}");
 
                 switch (rel.Type)
                 {
                     case RelocationType.R38632:
-                        *refr = (symval + *refr); // Symbol + Offset
+                        *refr = (symval + *refr) + memOffset; // Symbol + Offset
                         break;
                     case RelocationType.R386Pc32:
-                        *refr = (symval + *refr - (uint) refr); // Symbol + Offset - Section Offset
+                        *refr = (symval + *refr - (uint) refr) + memOffset; // Symbol + Offset - Section Offset
                         break;
                     case RelocationType.R386None:
                         //nop
+                        break;
+                    default:
+                        Console.WriteLine($"Error RelocationType({(int) rel.Type}) not implmented");
                         break;
                 }
             }
