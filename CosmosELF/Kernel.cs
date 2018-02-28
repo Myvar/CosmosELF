@@ -39,7 +39,7 @@ namespace CosmosELF
                 {
                     var args = new ArgumentWriter();
                     args.Push((uint)str);
-                    exe.Invoke("tty_puts");
+                    exe.Invoke("tty_log");
                 }
             }
         }

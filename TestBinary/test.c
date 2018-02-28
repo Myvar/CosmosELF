@@ -31,7 +31,42 @@ void tty_clear()
     LFB_Y = 0;
 }
 
+void tty_log(char *string)
+{
+    BG = 0x0f;
+    tty_putc('[');
+    BG = 0x0A;
+    tty_puts("Log");
+    BG = 0x0f;
+    tty_putc(']');
+    tty_puts(string);
+    tty_putc('\n');
+}
 
+void tty_warn(char *string)
+{
+    //terminal
+    BG = 0x0f;
+    tty_putc('[');
+    BG = 0x0E;
+    tty_puts("Warn");
+    BG = 0x0f;
+    tty_putc(']');
+    tty_puts(string);
+    tty_putc('\n');
+}
+
+void tty_error(char *string)
+{
+    BG = 0x0f;
+    tty_putc('[');
+    BG = 0x0C;
+    tty_puts("Error");
+    BG = 0x0f;
+    tty_putc(']');
+    tty_puts(string);
+    tty_putc('\n');
+}
 
 void tty_scroll_up()
 {
