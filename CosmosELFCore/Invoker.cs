@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Cosmos.Core.Memory.Old;
-using Cosmos.IL2CPU.API.Attribs;
+using IL2CPU.API.Attribs;
 using XSharp.Assembler;
 
 namespace CosmosELFCore
@@ -26,7 +26,14 @@ namespace CosmosELFCore
         [PlugMethod(Assembler = typeof(PlugStoreState))]
         public static void StoreState()
         {
-            Dump();
+            eax = 0;
+            ebx = 0;
+            ecx = 0;
+            edx = 0;
+            esi = 0;
+            edi = 0;
+            esp = 0;
+            ebp = 0;
         }
 
         [PlugMethod(Assembler = typeof(PlugLoadState))]
