@@ -20,11 +20,36 @@ namespace CosmosELFCore
         {
             _elf = new ElfFile(_stream);
 
+
             /*
              * 1. determin the total size of the final loaded sections
              * 2. maloc some space for them and allocate them
              * 3. update headers location information
              */
+
+            //calcualte bss secstion size
+            for (var i = 0; i < _elf.SectionHeaders.Count; i++)
+            {
+                var header = _elf.SectionHeaders[i];
+                if (header.Type == SectionType.NotPresentInFile)
+                {
+                    uint bssbase = 0;
+                    for (var index = 0; index < _elf.Symbols.Count; index++)
+                    {
+                        var sym = _elf.Symbols[index];
+                        if (sym.Shndx == 0xFFF2)
+                        {
+                            var size = sym.Value;
+                            sym.Value = bssbase;
+                            bssbase += size;
+                            sym.Shndx = (ushort) i;
+                        }
+                    }
+
+                    header.Size = bssbase;
+                    break;
+                }
+            }
 
             //calcualte final size
             uint totalSize = 0;
@@ -46,36 +71,47 @@ namespace CosmosELFCore
             {
                 if ((header.Flag & SectionAttributes.Alloc) != SectionAttributes.Alloc) continue;
 
-                //read the data from the orginal file
-                var reader = new BinaryReader(_stream);
-                reader.BaseStream.Posistion = header.Offset;
-
-                //update the meta data
-                header.Offset = writer.BaseStream.Posistion;
-
-                //write the data from the old file into the loaded executible
-                for (int i = 0; i < header.Size; i++)
+                if (header.Type == SectionType.NotPresentInFile)
                 {
-                    writer.Write(reader.ReadByte());
+                    //update the meta data
+                    header.Offset = writer.BaseStream.Posistion;
+
+                    for (int i = 0; i < header.Size; i++)
+                    {
+                        writer.Write((byte) 0);
+                    }
+                }
+                else
+                {
+                    //read the data from the orginal file
+                    var reader = new BinaryReader(_stream);
+                    reader.BaseStream.Posistion = header.Offset;
+
+                    //update the meta data
+                    header.Offset = writer.BaseStream.Posistion;
+
+                    //write the data from the old file into the loaded executible
+                    for (int i = 0; i < header.Size; i++)
+                    {
+                        writer.Write(reader.ReadByte());
+                    }
                 }
             }
         }
+
 
         public void Link()
         {
             foreach (var rel in _elf.RelocationInformation)
             {
+                var symval = _elf.Symbols[(int) rel.Symbol].Value;
+
                 var addr = (uint) _finalExecutible +
                            _elf.SectionHeaders[(int) _elf.SectionHeaders[rel.Section].Info].Offset;
                 var refr = (uint*) (addr + rel.Offset);
-                var symval = _elf.Symbols[(int) rel.Symbol].Value;
 
                 var memOffset = (uint) _finalExecutible +
                                 _elf.SectionHeaders[_elf.Symbols[(int) rel.Symbol].Shndx].Offset;
-//
-//                Console.WriteLine($"addr: {addr}, refr: {*refr}, symval: {symval}, memoffset: {memOffset}");
-//                Console.WriteLine("(symval + *refr) + memOffset");
-//                Console.WriteLine($"{symval} + {*refr} + {memOffset} = {(symval + *refr) + memOffset}");
 
                 switch (rel.Type)
                 {

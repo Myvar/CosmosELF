@@ -43,6 +43,10 @@
     <ISO_StartCosmosGDB>false</ISO_StartCosmosGDB>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="Cosmos.Build" Version="*" NoWarn="NU1604" />
     <PackageReference Include="Cosmos.Debug.Kernel" Version="*" NoWarn="NU1604" />
